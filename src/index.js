@@ -1,3 +1,4 @@
+import "./style.css";
 const { Ship, Gameboard, Player } = require("./constructors.js");
 
 const player1 = new Player("Me");
