@@ -62,14 +62,27 @@ class Gameboard {
       this.patrolboat[2] = y;
     }
     if (tmpx[0] == tmpy[0]) {
-      for (let z = 0; z < y - x + 1; z++) {
-        this.shipyard.push([x + z, type]);
-      }
-    } else {
       for (let z = 0; z < Math.floor((y - x) / 10) + 1; z++) {
         this.shipyard.push([x + z * 10, type]);
       }
+    } else {
+      for (let z = 0; z < y - x + 1; z++) {
+        this.shipyard.push([x + z, type]);
+      }
     }
+  };
+
+  allSunk = function () {
+    if (
+      this.carrier[0].sunk == "yes" &&
+      this.battleship[0].sunk == "yes" &&
+      this.destroyer[0].sunk == "yes" &&
+      this.submarine[0].sunk == "yes" &&
+      this.patrolboat[0].sunk == "yes"
+    ) {
+      return "All sank";
+    }
+    return "Some left";
   };
 
   receiveAttack = function (x) {
@@ -89,26 +102,20 @@ class Gameboard {
         } else {
           this.patrolboat[0].hit();
         }
-        allSunk();
+        this.allSunk();
         return "hit";
       } else {
         return "miss";
       }
     }
   };
-
-  allSunk = function () {
-    if (
-      this.carrier[0].sunk == "yes" &&
-      this.battleship[0].sunk == "yes" &&
-      this.destroyer[0].sunk == "yes" &&
-      this.submarine[0].sunk == "yes" &&
-      this.patrolboat[0].sunk == "yes"
-    ) {
-      return "All sank";
-    }
-    return "Some left";
-  };
 }
 
-module.exports = { Ship, Gameboard };
+class Player {
+  constructor(name) {
+    this.name = name;
+    this.board = new Gameboard();
+  }
+}
+
+module.exports = { Ship, Gameboard, Player };

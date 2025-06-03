@@ -1,4 +1,4 @@
-const { Ship, Gameboard } = require("./constructors.js");
+const { Ship, Gameboard, Player } = require("./constructors.js");
 
 test(`newship`, () => {
   const testship = new Ship(3);
