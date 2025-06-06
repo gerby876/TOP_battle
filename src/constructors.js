@@ -116,6 +116,114 @@ class Player {
     this.name = name;
     this.board = new Gameboard();
   }
+
+  createBoard = function () {
+    let x;
+    if (this.name !== "Computer") {
+      x = 1;
+    } else {
+      x = 2;
+    }
+
+    const play = document.querySelector(`.player${x}`);
+
+    const head = document.createElement("div");
+    head.classList.add("header");
+    play.appendChild(head);
+
+    if (x == 1) {
+      const score = document.createElement("div");
+      score.classList.add(`score${x}`);
+      score.textContent = 0;
+      head.appendChild(score);
+
+      const name = document.createElement("div");
+      name.classList.add("name");
+      name.textContent = this.name;
+      head.appendChild(name);
+    } else {
+      const name = document.createElement("div");
+      name.classList.add("name");
+      name.textContent = "Computer";
+      head.appendChild(name);
+
+      const score = document.createElement("div");
+      score.classList.add(`score${x}`);
+      score.textContent = 0;
+      head.appendChild(score);
+    }
+
+    const board = document.createElement("div");
+    board.classList.add("board");
+    play.appendChild(board);
+
+    const rows = document.createElement("div");
+    rows.classList.add("rows");
+    board.appendChild(rows);
+
+    for (let y = 74; y > 64; y--) {
+      const label = document.createElement("div");
+      label.textContent = String.fromCharCode(y);
+      rows.appendChild(label);
+    }
+
+    const squares = document.createElement("div");
+    squares.classList.add("squares");
+    board.appendChild(squares);
+
+    for (let y = 0; y < 100; y++) {
+      const button = document.createElement("button");
+      squares.appendChild(button);
+    }
+
+    const columns = document.createElement("div");
+    columns.classList.add("columns");
+    board.appendChild(columns);
+
+    for (let y = 1; y < 11; y++) {
+      const label = document.createElement("div");
+      label.textContent = y;
+      columns.appendChild(label);
+    }
+
+    const shipyard = document.createElement("div");
+    shipyard.classList.add("shipyard");
+    play.appendChild(shipyard);
+
+    const title = document.createElement("div");
+    title.classList.add("title");
+    title.textContent = "Shipyard";
+    shipyard.appendChild(title);
+
+    const ships = document.createElement("div");
+    ships.classList.add("ships");
+    shipyard.appendChild(ships);
+
+    const carrier = document.createElement("div");
+    carrier.classList.add("carrier");
+    carrier.textContent = "Carrier";
+    ships.appendChild(carrier);
+
+    const battleship = document.createElement("div");
+    battleship.classList.add("battleship");
+    battleship.textContent = "Battleship";
+    ships.appendChild(battleship);
+
+    const destroyer = document.createElement("div");
+    destroyer.classList.add("destroyer");
+    destroyer.textContent = "Destroyer";
+    ships.appendChild(destroyer);
+
+    const submarine = document.createElement("div");
+    submarine.classList.add("submarine");
+    submarine.textContent = "Submarine";
+    ships.appendChild(submarine);
+
+    const patrolboat = document.createElement("div");
+    patrolboat.classList.add("patrolboat");
+    patrolboat.textContent = "Patrolboat";
+    ships.appendChild(patrolboat);
+  };
 }
 
 module.exports = { Ship, Gameboard, Player };
