@@ -62,12 +62,12 @@ class Gameboard {
       this.patrolboat[2] = y;
     }
     if (tmpx[0] == tmpy[0]) {
-      for (let z = 0; z < Math.floor((y - x) / 10) + 1; z++) {
-        this.shipyard.push([x + z * 10, type]);
+      for (let z = 0; z < Math.floor(y - x) + 1; z++) {
+        this.shipyard.push([x + z, type]);
       }
     } else {
-      for (let z = 0; z < y - x + 1; z++) {
-        this.shipyard.push([x + z, type]);
+      for (let z = 0; z < y - x; z++) {
+        this.shipyard.push([x + z * 10, type]);
       }
     }
   };
@@ -86,26 +86,35 @@ class Gameboard {
   };
 
   receiveAttack = function (x) {
+    let tmpx = x.split("");
+    x = tmpx[0].toLowerCase(0).charCodeAt(0) + tmpx[1];
     this.shots.push(x);
     for (let z = 0; z < this.shipyard.length; z++) {
       if (this.shipyard[z][0] == x) {
         if (this.shipyard[z][1] == "carrier") {
           this.carrier[0].hit();
+          this.allSunk();
+          return "hit";
         } else if (this.shipyard[z][1] == "battleship") {
           this.battleship[0].hit();
+          this.allSunk();
+          return "hit";
         } else if (this.shipyard[z][1] == "destroyer") {
           this.destroyer[0].hit();
+          this.allSunk();
+          return "hit";
         } else if (this.shipyard[z][1] == "submarine") {
           this.submarine[0].hit();
+          this.allSunk();
+          return "hit";
         } else {
           this.patrolboat[0].hit();
+          this.allSunk();
+          return "hit";
         }
-        this.allSunk();
-        return "hit";
-      } else {
-        return "miss";
       }
     }
+    return "miss";
   };
 }
 
@@ -117,12 +126,12 @@ class Player {
 
   fireShot = function (x) {
     let tmpx = x.split("");
-    x = tmpx[0].charCodeAt(0) * 10 + (tmpx[1] - 1);
-    if (this.board.shots.includes(x)) {
+    let y = tmpx[0].toLowerCase(0).charCodeAt(0) + tmpx[1];
+    if (this.board.shots.includes(y)) {
       console.log("Shot here already");
-      return;
+      return [false];
     } else {
-      this.board.receiveAttack(x);
+      return [true, this.board.receiveAttack(x)];
     }
   };
 
@@ -177,11 +186,20 @@ class Player {
     for (let y = 74; y > 64; y--) {
       const label = document.createElement("div");
       label.textContent = String.fromCharCode(y);
-      for (let z = 1; z < 11; z++) {
+      for (let z = 0; z < 10; z++) {
         const button = document.createElement("button");
         button.textContent = String.fromCharCode(y) + z;
         button.addEventListener("click", () => {
-          this.fireShot(String.fromCharCode(y) + z);
+          let result = this.fireShot(String.fromCharCode(y) + z);
+          if (result[0] == true) {
+            if (result[1] == "hit") {
+              button.style.backgroundColor = "red";
+            } else {
+              button.style.backgroundColor = "blue";
+            }
+          } else {
+            console.log("false");
+          }
         });
         squares.appendChild(button);
       }

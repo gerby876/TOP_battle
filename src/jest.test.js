@@ -28,7 +28,7 @@ test(`placeship`, () => {
   expect(board.carrier[2]).toBe(974);
 });
 
-test(`placeship`, () => {
+test(`placeship1`, () => {
   const board = new Gameboard();
   board.placeShip("carrier", "a5", "a1");
   expect(board.carrier[1]).toBe(970);
@@ -37,7 +37,7 @@ test(`placeship`, () => {
   expect(board.shipyard[4][0]).toBe(974);
 });
 
-test(`placeship`, () => {
+test(`placeship2`, () => {
   const board = new Gameboard();
   board.placeShip("carrier", "a2", "e2");
   expect(board.carrier[1]).toBe(971);
