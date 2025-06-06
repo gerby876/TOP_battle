@@ -86,8 +86,6 @@ class Gameboard {
   };
 
   receiveAttack = function (x) {
-    let tmpx = x.split("");
-    x = tmpx[0].charCodeAt(0) * 10 + (tmpx[1] - 1);
     this.shots.push(x);
     for (let z = 0; z < this.shipyard.length; z++) {
       if (this.shipyard[z][0] == x) {
@@ -116,6 +114,17 @@ class Player {
     this.name = name;
     this.board = new Gameboard();
   }
+
+  fireShot = function (x) {
+    let tmpx = x.split("");
+    x = tmpx[0].charCodeAt(0) * 10 + (tmpx[1] - 1);
+    if (this.board.shots.includes(x)) {
+      console.log("Shot here already");
+      return;
+    } else {
+      this.board.receiveAttack(x);
+    }
+  };
 
   createBoard = function () {
     let x;
@@ -161,19 +170,22 @@ class Player {
     rows.classList.add("rows");
     board.appendChild(rows);
 
-    for (let y = 74; y > 64; y--) {
-      const label = document.createElement("div");
-      label.textContent = String.fromCharCode(y);
-      rows.appendChild(label);
-    }
-
     const squares = document.createElement("div");
     squares.classList.add("squares");
     board.appendChild(squares);
 
-    for (let y = 0; y < 100; y++) {
-      const button = document.createElement("button");
-      squares.appendChild(button);
+    for (let y = 74; y > 64; y--) {
+      const label = document.createElement("div");
+      label.textContent = String.fromCharCode(y);
+      for (let z = 1; z < 11; z++) {
+        const button = document.createElement("button");
+        button.textContent = String.fromCharCode(y) + z;
+        button.addEventListener("click", () => {
+          this.fireShot(String.fromCharCode(y) + z);
+        });
+        squares.appendChild(button);
+      }
+      rows.appendChild(label);
     }
 
     const columns = document.createElement("div");
