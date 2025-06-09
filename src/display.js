@@ -1,3 +1,4 @@
+const { shiphit } = require("./images/hitship.jpg");
 const halves = (function () {
   const body = document.querySelector("body");
   for (let x = 1; x < 3; x++) {
@@ -136,7 +137,10 @@ const turn = function (player1, player2, player, space) {
   }
 
   if (result == "hit") {
-    button.style.backgroundColor = "red";
+    const img = document.createElement("img");
+    img.src = "./images/hitship.jpeg";
+    console.log(img);
+    button.appendChild(img);
   } else {
     button.style.backgroundColor = "blue";
   }
