@@ -64,7 +64,7 @@ test(`attackship`, () => {
 test(`attackship`, () => {
   const board = new Gameboard();
   board.placeShip("carrier", "a5", "a1");
-  board.receiveAttack("a1");
-  expect(board.shots[0]).toBe(970);
+  board.receiveAttack("a0");
+  expect(board.shots[0]).toBe("970");
   expect(board.receiveAttack("b1")).toBe("miss");
 });

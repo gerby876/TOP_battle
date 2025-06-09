@@ -1,3 +1,5 @@
+const { displayBoard } = require("./display.js");
+
 class Ship {
   constructor(length) {
     this.length = length;
@@ -66,7 +68,7 @@ class Gameboard {
         this.shipyard.push([x + z, type]);
       }
     } else {
-      for (let z = 0; z < y - x; z++) {
+      for (let z = 0; z < (y - x) / 10 + 1; z++) {
         this.shipyard.push([x + z * 10, type]);
       }
     }
@@ -80,9 +82,9 @@ class Gameboard {
       this.submarine[0].sunk == "yes" &&
       this.patrolboat[0].sunk == "yes"
     ) {
-      return "All sank";
+      return true;
     }
-    return "Some left";
+    return false;
   };
 
   receiveAttack = function (x) {
@@ -119,9 +121,10 @@ class Gameboard {
 }
 
 class Player {
-  constructor(name) {
+  constructor(name, active) {
     this.name = name;
     this.board = new Gameboard();
+    this.active = active;
   }
 
   fireShot = function (x) {
@@ -135,124 +138,12 @@ class Player {
     }
   };
 
-  createBoard = function () {
-    let x;
-    if (this.name !== "Computer") {
-      x = 1;
-    } else {
-      x = 2;
-    }
+  endGame = function (x) {
+    console.log(`${this.name} lost the game.`);
+  };
 
-    const play = document.querySelector(`.player${x}`);
-
-    const head = document.createElement("div");
-    head.classList.add("header");
-    play.appendChild(head);
-
-    if (x == 1) {
-      const score = document.createElement("div");
-      score.classList.add(`score${x}`);
-      score.textContent = 0;
-      head.appendChild(score);
-
-      const name = document.createElement("div");
-      name.classList.add("name");
-      name.textContent = this.name;
-      head.appendChild(name);
-    } else {
-      const name = document.createElement("div");
-      name.classList.add("name");
-      name.textContent = "Computer";
-      head.appendChild(name);
-
-      const score = document.createElement("div");
-      score.classList.add(`score${x}`);
-      score.textContent = 0;
-      head.appendChild(score);
-    }
-
-    const board = document.createElement("div");
-    board.classList.add("board");
-    play.appendChild(board);
-
-    const rows = document.createElement("div");
-    rows.classList.add("rows");
-    board.appendChild(rows);
-
-    const squares = document.createElement("div");
-    squares.classList.add("squares");
-    board.appendChild(squares);
-
-    for (let y = 74; y > 64; y--) {
-      const label = document.createElement("div");
-      label.textContent = String.fromCharCode(y);
-      for (let z = 0; z < 10; z++) {
-        const button = document.createElement("button");
-        button.textContent = String.fromCharCode(y) + z;
-        button.addEventListener("click", () => {
-          let result = this.fireShot(String.fromCharCode(y) + z);
-          if (result[0] == true) {
-            if (result[1] == "hit") {
-              button.style.backgroundColor = "red";
-            } else {
-              button.style.backgroundColor = "blue";
-            }
-          } else {
-            console.log("false");
-          }
-        });
-        squares.appendChild(button);
-      }
-      rows.appendChild(label);
-    }
-
-    const columns = document.createElement("div");
-    columns.classList.add("columns");
-    board.appendChild(columns);
-
-    for (let y = 1; y < 11; y++) {
-      const label = document.createElement("div");
-      label.textContent = y;
-      columns.appendChild(label);
-    }
-
-    const shipyard = document.createElement("div");
-    shipyard.classList.add("shipyard");
-    play.appendChild(shipyard);
-
-    const title = document.createElement("div");
-    title.classList.add("title");
-    title.textContent = "Shipyard";
-    shipyard.appendChild(title);
-
-    const ships = document.createElement("div");
-    ships.classList.add("ships");
-    shipyard.appendChild(ships);
-
-    const carrier = document.createElement("div");
-    carrier.classList.add("carrier");
-    carrier.textContent = "Carrier";
-    ships.appendChild(carrier);
-
-    const battleship = document.createElement("div");
-    battleship.classList.add("battleship");
-    battleship.textContent = "Battleship";
-    ships.appendChild(battleship);
-
-    const destroyer = document.createElement("div");
-    destroyer.classList.add("destroyer");
-    destroyer.textContent = "Destroyer";
-    ships.appendChild(destroyer);
-
-    const submarine = document.createElement("div");
-    submarine.classList.add("submarine");
-    submarine.textContent = "Submarine";
-    ships.appendChild(submarine);
-
-    const patrolboat = document.createElement("div");
-    patrolboat.classList.add("patrolboat");
-    patrolboat.textContent = "Patrolboat";
-    ships.appendChild(patrolboat);
+  createBoard = function (player1, player2) {
+    displayBoard(player1, player2, this.name);
   };
 }
 
