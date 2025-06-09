@@ -140,10 +140,13 @@ const turn = function (player1, player2, player, space) {
 
   if (player1.board.allSunk() == true) {
     player1.endGame(player1.name);
-    addScore(2, player2);
+    player2.addScore(2);
   } else if (player2.board.allSunk() == true) {
     player2.endGame(player2.name);
-    addScore(1, player1);
+    player1.addScore(1);
+  }
+  if (player2.name == "Computer" && player2.active == true) {
+    computerTurn(player1, player2);
   }
 };
 
@@ -171,10 +174,18 @@ const changeturn = function (player1, player2, name, space) {
   }
 };
 
-const addScore = function (x, player) {
-  const display = document.getElementById(`score${x}`);
-  player.score = player.score + 1;
-  display.textContent = player.score;
+const computerTurn = function (player) {
+  let x = Math.floor(Math.random() * (107 - 97) + 97);
+  let y = Math.floor(Math.random() * (10 - 0) + 0);
+  let shot = x.toString() + y.toString();
+  while (player.board.shots.includes(shot)) {
+    x = Math.floor(Math.random() * (107 - 97) + 97);
+    y = Math.floor(Math.random() * (10 - 0) + 0);
+    shot = x.toString() + y.toString();
+  }
+  shot = String.fromCharCode(x).toUpperCase() + y;
+  console.log(shot + 1);
+  document.getElementById(`${shot + 1}`).click();
 };
 
 module.exports = { displayBoard };

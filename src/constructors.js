@@ -135,6 +135,12 @@ class Player {
   createBoard = function (player1, player2) {
     displayBoard(player1, player2, this.name);
   };
+
+  addScore = function (x) {
+    const display = document.getElementById(`score${x}`);
+    this.score = this.score + 1;
+    display.textContent = this.score;
+  };
 }
 
 module.exports = { Ship, Gameboard, Player };
