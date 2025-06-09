@@ -11,3 +11,5 @@ npm install --save-dev html-loader
 npm install --save-dev webpack-dev-server
 
 npm install --save-dev jest
+
+<a href="https://www.vecteezy.com/free-png/water">Water PNGs by Vecteezy</a>

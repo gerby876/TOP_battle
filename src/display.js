@@ -120,6 +120,9 @@ const displayBoard = function (player1, player2, player) {
 };
 
 const turn = function (player1, player2, player, space) {
+  if (player1.game == false || player2.game == false) {
+    return;
+  }
   let button;
   if (changeturn(player1, player2, player, space) == false) {
     return;
@@ -139,11 +142,13 @@ const turn = function (player1, player2, player, space) {
   }
 
   if (player1.board.allSunk() == true) {
-    player1.endGame(player1.name);
     player2.addScore(2);
+    player1.game = false;
+    player2.game = false;
   } else if (player2.board.allSunk() == true) {
-    player2.endGame(player2.name);
     player1.addScore(1);
+    player1.game = false;
+    player2.game = false;
   }
   if (player2.name == "Computer" && player2.active == true) {
     computerTurn(player1, player2);
@@ -184,7 +189,6 @@ const computerTurn = function (player) {
     shot = x.toString() + y.toString();
   }
   shot = String.fromCharCode(x).toUpperCase() + y;
-  console.log(shot + 1);
   document.getElementById(`${shot + 1}`).click();
 };
 

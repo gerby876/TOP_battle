@@ -126,11 +126,8 @@ class Player {
     this.board = new Gameboard();
     this.active = active;
     this.score = 0;
+    this.game = true;
   }
-
-  endGame = function (x) {
-    console.log(`${x} lost the game.`);
-  };
 
   createBoard = function (player1, player2) {
     displayBoard(player1, player2, this.name);
