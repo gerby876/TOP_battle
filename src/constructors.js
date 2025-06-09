@@ -1,4 +1,4 @@
-const { displayBoard } = require("./display.js");
+import { displayBoard } from "./display.js";
 
 class Ship {
   constructor(length) {
@@ -140,4 +140,4 @@ class Player {
   };
 }
 
-module.exports = { Ship, Gameboard, Player };
+export { Player };

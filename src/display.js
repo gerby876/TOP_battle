@@ -1,4 +1,5 @@
-const { shiphit } = require("./images/hitship.jpg");
+import hitShip from "./images/hitship.png";
+import missed from "./images/missed.png";
 const halves = (function () {
   const body = document.querySelector("body");
   for (let x = 1; x < 3; x++) {
@@ -125,6 +126,7 @@ const turn = function (player1, player2, player, space) {
     return;
   }
   let button;
+  let result;
   if (changeturn(player1, player2, player, space) == false) {
     return;
   }
@@ -138,10 +140,13 @@ const turn = function (player1, player2, player, space) {
 
   if (result == "hit") {
     const img = document.createElement("img");
-    img.src = "./images/hitship.jpeg";
-    console.log(img);
+    img.src = hitShip;
     button.appendChild(img);
+    button.style.backgroundColor = "red";
   } else {
+    const img = document.createElement("img");
+    img.src = missed;
+    button.appendChild(img);
     button.style.backgroundColor = "blue";
   }
 
@@ -196,4 +201,4 @@ const computerTurn = function (player) {
   document.getElementById(`${shot + 1}`).click();
 };
 
-module.exports = { displayBoard };
+export { displayBoard };

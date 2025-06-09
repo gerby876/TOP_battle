@@ -1,5 +1,5 @@
 import "./style.css";
-const { Player } = require("./constructors.js");
+import { Player } from "./constructors.js";
 
 const player1 = new Player("Me", true);
 const player2 = new Player("Computer", false);
