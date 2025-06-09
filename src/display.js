@@ -23,7 +23,7 @@ const displayBoard = function (player1, player2, player) {
 
   if (x == 1) {
     const score = document.createElement("div");
-    score.classList.add(`score${x}`);
+    score.id = `score${x}`;
     score.textContent = 0;
     head.appendChild(score);
 
@@ -38,7 +38,7 @@ const displayBoard = function (player1, player2, player) {
     head.appendChild(name);
 
     const score = document.createElement("div");
-    score.classList.add(`score${x}`);
+    score.id = `score${x}`;
     score.textContent = 0;
     head.appendChild(score);
   }
@@ -60,29 +60,10 @@ const displayBoard = function (player1, player2, player) {
     label.textContent = String.fromCharCode(y);
     for (let z = 0; z < 10; z++) {
       const button = document.createElement("button");
-      button.textContent = String.fromCharCode(y) + z;
+      button.id = String.fromCharCode(y) + z + x;
       button.addEventListener("click", () => {
         let space = String.fromCharCode(y) + z;
-        if (turn(player1, player2, player, space) == false) {
-          return;
-        }
-        if (player == player1.name) {
-          result = player1.board.receiveAttack(space);
-        } else {
-          result = player2.board.receiveAttack(space);
-        }
-
-        if (result == "hit") {
-          button.style.backgroundColor = "red";
-        } else {
-          button.style.backgroundColor = "blue";
-        }
-
-        if (player1.board.allSunk() == true) {
-          player1.endGame(player1.name);
-        } else if (player2.board.allSunk() == true) {
-          player2.endGame(player2.name);
-        }
+        turn(player1, player2, player, space);
       });
       squares.appendChild(button);
     }
@@ -138,7 +119,35 @@ const displayBoard = function (player1, player2, player) {
   ships.appendChild(patrolboat);
 };
 
-const turn = function (player1, player2, name, space) {
+const turn = function (player1, player2, player, space) {
+  let button;
+  if (changeturn(player1, player2, player, space) == false) {
+    return;
+  }
+  if (player == player1.name) {
+    result = player1.board.receiveAttack(space);
+    button = document.getElementById(space + 1);
+  } else {
+    result = player2.board.receiveAttack(space);
+    button = document.getElementById(space + 2);
+  }
+
+  if (result == "hit") {
+    button.style.backgroundColor = "red";
+  } else {
+    button.style.backgroundColor = "blue";
+  }
+
+  if (player1.board.allSunk() == true) {
+    player1.endGame(player1.name);
+    addScore(2, player2);
+  } else if (player2.board.allSunk() == true) {
+    player2.endGame(player2.name);
+    addScore(1, player1);
+  }
+};
+
+const changeturn = function (player1, player2, name, space) {
   let tmp = space.split("");
   let y = tmp[0].toLowerCase(0).charCodeAt(0) + tmp[1];
   if (
@@ -160,6 +169,12 @@ const turn = function (player1, player2, name, space) {
     player2.active = false;
     player1.active = true;
   }
+};
+
+const addScore = function (x, player) {
+  const display = document.getElementById(`score${x}`);
+  player.score = player.score + 1;
+  display.textContent = player.score;
 };
 
 module.exports = { displayBoard };

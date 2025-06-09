@@ -125,21 +125,11 @@ class Player {
     this.name = name;
     this.board = new Gameboard();
     this.active = active;
+    this.score = 0;
   }
 
-  fireShot = function (x) {
-    let tmpx = x.split("");
-    let y = tmpx[0].toLowerCase(0).charCodeAt(0) + tmpx[1];
-    if (this.board.shots.includes(y)) {
-      console.log("Shot here already");
-      return [false];
-    } else {
-      return [true, this.board.receiveAttack(x)];
-    }
-  };
-
   endGame = function (x) {
-    console.log(`${this.name} lost the game.`);
+    console.log(`${x} lost the game.`);
   };
 
   createBoard = function (player1, player2) {

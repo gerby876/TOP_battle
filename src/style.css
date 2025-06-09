@@ -33,12 +33,12 @@ body {
   justify-content: center;
 }
 
-.score1 {
+#score1 {
   font-size: 5em;
   padding-right: 1em;
 }
 
-.score2 {
+#score2 {
   font-size: 5em;
   padding-left: 1em;
 }
