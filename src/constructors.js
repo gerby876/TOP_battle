@@ -43,6 +43,27 @@ class Gameboard {
       y = x;
       x = tmp;
     }
+    if (tmpx[0] == tmpy[0]) {
+      for (let z = 0; z < this.shipyard.length - 1; z++) {
+        if (this.shipyard[z].includes(x + z)) {
+          return;
+        }
+      }
+      for (let z = 0; z < Math.floor(y - x) + 1; z++) {
+        this.shipyard.push([x + z, type]);
+      }
+    } else {
+      for (let z = 0; z < this.shipyard.length - 1; z++) {
+        for (let a = 0; a < (y - x) / 10 + 1; a++) {
+          if (this.shipyard[z].includes(x + a * 10)) {
+            return;
+          }
+        }
+      }
+      for (let z = 0; z < (y - x) / 10 + 1; z++) {
+        this.shipyard.push([x + z * 10, type]);
+      }
+    }
     if (type == "carrier") {
       this.carrier[1] = x;
       this.carrier[2] = y;
@@ -62,15 +83,6 @@ class Gameboard {
     if (type == "patrolboat") {
       this.patrolboat[1] = x;
       this.patrolboat[2] = y;
-    }
-    if (tmpx[0] == tmpy[0]) {
-      for (let z = 0; z < Math.floor(y - x) + 1; z++) {
-        this.shipyard.push([x + z, type]);
-      }
-    } else {
-      for (let z = 0; z < (y - x) / 10 + 1; z++) {
-        this.shipyard.push([x + z * 10, type]);
-      }
     }
   };
 
@@ -121,12 +133,13 @@ class Gameboard {
 }
 
 class Player {
-  constructor(name, active) {
+  constructor(name, active, difficulty) {
     this.name = name;
     this.board = new Gameboard();
     this.active = active;
     this.score = 0;
     this.game = true;
+    this.difficulty = difficulty;
   }
 
   createBoard = function (player1, player2) {

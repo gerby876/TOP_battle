@@ -119,3 +119,35 @@ img {
   height: 80%;
   width: 60%;
 }
+
+:open {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  padding: 0.5em;
+}
+
+.close {
+  width: 2em;
+  height: 1.5em;
+  justify-self: end;
+  border-radius: 4px;
+  margin-bottom: 0.5em;
+}
+
+.choice {
+  justify-self: center;
+}
+.selection {
+  margin-bottom: 0.5em;
+}
+
+.submit {
+  width: 5em;
+  justify-self: center;
+  border-radius: 4px;
+}
+
+input {
+  margin-bottom: 0.5em;
+}

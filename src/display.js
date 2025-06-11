@@ -1,5 +1,9 @@
 import hitShip from "./images/hitship.png";
 import missed from "./images/missed.png";
+import { Player } from "./constructors";
+let player1;
+let player2;
+
 const halves = (function () {
   const body = document.querySelector("body");
   for (let x = 1; x < 3; x++) {
@@ -7,6 +11,38 @@ const halves = (function () {
     play.classList.add(`player${x}`);
     body.appendChild(play);
   }
+  const newmatch = document.getElementById("mainmenu");
+  const p1 = document.querySelector(".playername");
+  const submit = document.querySelector(".submit");
+
+  newmatch.showModal();
+  submit.addEventListener("click", () => {
+    if (
+      p1.value == "" ||
+      p1.value == "Computer" ||
+      document.querySelector(`input[name=difficulty]:checked`) == null
+    ) {
+      return;
+    }
+    player1 = new Player(p1.value, true);
+    player2 = new Player(
+      "Computer",
+      false,
+      document.querySelector(`input[name=difficulty]:checked`).id
+    );
+    player1.createBoard(player1, player2);
+    player2.createBoard(player1, player2);
+    newmatch.close();
+  });
+
+  const close = document.querySelector(".close");
+  close.addEventListener("click", () => {
+    if (document.querySelector(".player1").childElementCount < 1) {
+      return;
+    } else {
+      newmatch.close();
+    }
+  });
 })();
 
 const displayBoard = function (player1, player2, player) {
