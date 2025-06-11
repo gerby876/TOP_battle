@@ -60,7 +60,7 @@ body {
 }
 
 .squares {
-  background-color: green;
+  background-color: white;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-auto-rows: 1fr;
@@ -85,13 +85,22 @@ body {
   width: 100%;
 }
 
-button {
+.squares > div {
   width: 100%;
   height: 100%;
   border-radius: 0px;
   border-style: solid;
   border-color: black;
   border-width: 1px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.squares > div > img {
+  width: 55%;
+  height: 90%;
 }
 
 .shipyard {

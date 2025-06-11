@@ -1,5 +1,6 @@
 import hitShip from "./images/hitship.png";
 import missed from "./images/missed.png";
+import carrierimg from "./images/carrier.png";
 import { Player } from "./constructors";
 let player1;
 let player2;
@@ -32,6 +33,17 @@ const halves = (function () {
     );
     player1.createBoard(player1, player2);
     player2.createBoard(player1, player2);
+    player1.board.placeShip("carrier", "a1", "a5");
+    player1.board.placeShip("battleship", "b1", "b4");
+    player1.board.placeShip("destroyer", "c1", "c3");
+    player1.board.placeShip("submarine", "d1", "d3");
+    player1.board.placeShip("patrolboat", "e1", "e2");
+
+    player2.board.placeShip("carrier", "a1", "e1");
+    player2.board.placeShip("battleship", "a2", "d2");
+    player2.board.placeShip("destroyer", "c3", "e3");
+    player2.board.placeShip("submarine", "c4", "e4");
+    player2.board.placeShip("patrolboat", "d5", "e5");
     newmatch.close();
   });
 
@@ -97,7 +109,7 @@ const displayBoard = function (player1, player2, player) {
     const label = document.createElement("div");
     label.textContent = String.fromCharCode(y);
     for (let z = 0; z < 10; z++) {
-      const button = document.createElement("button");
+      const button = document.createElement("div");
       button.id = String.fromCharCode(y) + z + x;
       button.addEventListener("click", () => {
         let space = String.fromCharCode(y) + z;
@@ -134,6 +146,11 @@ const displayBoard = function (player1, player2, player) {
   const carrier = document.createElement("div");
   carrier.classList.add("carrier");
   carrier.textContent = "Carrier";
+  carrier.addEventListener("click", () => {
+    carrier.style.backgroundColor = "Blue";
+    console.log(squares);
+    document.body.style.cursor = `url(${carrierimg}), crosshair`;
+  });
   ships.appendChild(carrier);
 
   const battleship = document.createElement("div");
