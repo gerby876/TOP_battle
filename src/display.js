@@ -1,6 +1,10 @@
 import hitShip from "./images/hitship.png";
 import missed from "./images/missed.png";
 import carrierimg from "./images/carrier.png";
+import battleshipimg from "./images/battleship.png";
+import destroyerimg from "./images/destroyer.png";
+import submarineimg from "./images/sub.png";
+import patrolimg from "./images/patrol.png";
 import { Player } from "./constructors";
 let player1;
 let player2;
@@ -143,34 +147,33 @@ const displayBoard = function (player1, player2, player) {
   ships.classList.add("ships");
   shipyard.appendChild(ships);
 
-  const carrier = document.createElement("div");
+  const carrier = document.createElement("img");
   carrier.classList.add("carrier");
-  carrier.textContent = "Carrier";
-  carrier.addEventListener("click", () => {
-    carrier.style.backgroundColor = "Blue";
-    console.log(squares);
-    document.body.style.cursor = `url(${carrierimg}), crosshair`;
-  });
+  carrier.src = carrierimg;
+  carrier.style.transform = `rotate(` + 90 + ` deg)`;
+  // carrier.addEventListener("click", () => {
+  //   carrier.style.backgroundColor = "Blue";
+  // });
   ships.appendChild(carrier);
 
-  const battleship = document.createElement("div");
+  const battleship = document.createElement("img");
   battleship.classList.add("battleship");
-  battleship.textContent = "Battleship";
+  battleship.src = battleshipimg;
   ships.appendChild(battleship);
 
-  const destroyer = document.createElement("div");
+  const destroyer = document.createElement("img");
   destroyer.classList.add("destroyer");
-  destroyer.textContent = "Destroyer";
+  destroyer.src = destroyerimg;
   ships.appendChild(destroyer);
 
-  const submarine = document.createElement("div");
+  const submarine = document.createElement("img");
   submarine.classList.add("submarine");
-  submarine.textContent = "Submarine";
+  submarine.src = submarineimg;
   ships.appendChild(submarine);
 
-  const patrolboat = document.createElement("div");
+  const patrolboat = document.createElement("img");
   patrolboat.classList.add("patrolboat");
-  patrolboat.textContent = "Patrolboat";
+  patrolboat.src = patrolimg;
   ships.appendChild(patrolboat);
 };
 
