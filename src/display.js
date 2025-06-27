@@ -106,7 +106,7 @@ const displayBoard = function (player1, player2, player) {
   board.appendChild(rows);
 
   const squares = document.createElement("div");
-  squares.classList.add("squares");
+  squares.id = "squares";
   board.appendChild(squares);
 
   for (let y = 74; y > 64; y--) {
@@ -150,31 +150,181 @@ const displayBoard = function (player1, player2, player) {
   const carrier = document.createElement("img");
   carrier.classList.add("carrier");
   carrier.src = carrierimg;
-  carrier.style.transform = `rotate(` + 90 + ` deg)`;
-  // carrier.addEventListener("click", () => {
-  //   carrier.style.backgroundColor = "Blue";
-  // });
+  carrier.draggable = true;
   ships.appendChild(carrier);
 
   const battleship = document.createElement("img");
   battleship.classList.add("battleship");
   battleship.src = battleshipimg;
+  battleship.draggable = true;
   ships.appendChild(battleship);
 
   const destroyer = document.createElement("img");
   destroyer.classList.add("destroyer");
   destroyer.src = destroyerimg;
+  destroyer.draggable = true;
   ships.appendChild(destroyer);
 
   const submarine = document.createElement("img");
   submarine.classList.add("submarine");
   submarine.src = submarineimg;
+  submarine.draggable = true;
   ships.appendChild(submarine);
 
   const patrolboat = document.createElement("img");
   patrolboat.classList.add("patrolboat");
   patrolboat.src = patrolimg;
+  patrolboat.draggable = true;
   ships.appendChild(patrolboat);
+
+  if (x == 1) {
+    carrier.classList.add("draggable");
+    battleship.classList.add("draggable");
+    destroyer.classList.add("draggable");
+    submarine.classList.add("draggable");
+    patrolboat.classList.add("draggable");
+
+    const draggables = document.querySelectorAll(".draggable");
+    console.log(draggables);
+    draggables.forEach((draggable) => {
+      draggable.addEventListener("dragstart", () => {
+        draggable.classList.add("dragging");
+      });
+      draggable.addEventListener("dragend", () => {
+        draggable.classList.remove("dragging");
+      });
+    });
+
+    squares.addEventListener("dragover", (ev) => {
+      const draggable = document.querySelector(".dragging");
+      squares.style.backgroundColor = "red";
+      let point = document.elementFromPoint(ev.clientX, ev.clientY);
+
+      const placed = document.querySelectorAll(".placement");
+      placed.forEach((element) => {
+        element.classList.remove("placement");
+      });
+      if (draggable.classList.contains("carrier")) {
+        if (point.id.charAt(0) == "A" || point.id.charAt(0) == "B") {
+          point = document.getElementById(
+            "C" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        } else if (point.id.charAt(0) == "J" || point.id.charAt(0) == "I") {
+          point = document.getElementById(
+            "H" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        }
+        point.classList.add("placement");
+        for (let y = 1; y < 3; y++) {
+          let temp = point.id.charCodeAt(0) + y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+        for (let y = 1; y < 3; y++) {
+          let temp = point.id.charCodeAt(0) - y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+      }
+
+      if (draggable.classList.contains("battleship")) {
+        if (point.id.charAt(0) == "A") {
+          point = document.getElementById(
+            "B" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        } else if (point.id.charAt(0) == "J" || point.id.charAt(0) == "I") {
+          point = document.getElementById(
+            "H" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        }
+        point.classList.add("placement");
+        for (let y = 1; y < 3; y++) {
+          let temp = point.id.charCodeAt(0) + y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+        for (let y = 1; y < 2; y++) {
+          let temp = point.id.charCodeAt(0) - y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+      }
+
+      if (
+        draggable.classList.contains("destroyer") ||
+        draggable.classList.contains("submarine")
+      ) {
+        if (point.id.charAt(0) == "A") {
+          point = document.getElementById(
+            "B" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        } else if (point.id.charAt(0) == "J") {
+          point = document.getElementById(
+            "I" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        }
+        point.classList.add("placement");
+        for (let y = 1; y < 2; y++) {
+          let temp = point.id.charCodeAt(0) + y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+        for (let y = 1; y < 2; y++) {
+          let temp = point.id.charCodeAt(0) - y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+      }
+
+      if (draggable.classList.contains("patrolboat")) {
+        if (point.id.charAt(0) == "A") {
+          point = document.getElementById(
+            "B" +
+              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+              "1"
+          );
+        }
+        point.classList.add("placement");
+        for (let y = 1; y < 2; y++) {
+          let temp = point.id.charCodeAt(0) - y;
+          let spot = document.getElementById(
+            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
+          );
+          spot.classList.add("placement");
+        }
+      }
+    });
+
+    squares.addEventListener("drop", (ev) => {
+      // let point = document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0);
+      // console.log(point);
+      // ev.preventDefault();
+    });
+  }
 };
 
 const turn = function (player1, player2, player, space) {
