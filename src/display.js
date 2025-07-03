@@ -185,12 +185,56 @@ const displayBoard = function (player1, player2, player) {
     patrolboat.classList.add("draggable");
 
     const draggables = document.querySelectorAll(".draggable");
-    console.log(draggables);
     draggables.forEach((draggable) => {
       draggable.addEventListener("dragstart", () => {
         draggable.classList.add("dragging");
       });
-      draggable.addEventListener("dragend", () => {
+      draggable.addEventListener("dragend", (ev) => {
+        console.log(draggable.classList[0]);
+        const placed = document.querySelectorAll(".placement");
+        placed.forEach((element) => {
+          element.classList.add("placed");
+          element.classList.remove("placement");
+        });
+        if (draggable.classList[0] == "carrier") {
+          let center = document.elementFromPoint(ev.clientX, ev.clientY);
+          if (center.id.charAt(0) == "A" || center.id.charAt(0) == "B") {
+            center = document.getElementById(
+              "C" +
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+                "1"
+            );
+          } else if (center.id.charAt(0) == "J" || center.id.charAt(0) == "I") {
+            center = document.getElementById(
+              "H" +
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
+                "1"
+            );
+          }
+
+          let position = center.getBoundingClientRect();
+          let canvas = document.createElement("canvas");
+
+          let ctx = canvas.getContext("2d");
+          let img = new Image();
+          img.src = carrierimg;
+          img.style.height = (position.bottom - position.top) * 5 + `px`;
+          img.style.width = position.right - position.left + `px`;
+          img.id = "placedimage";
+          canvas.height = document.getElementById("placedimage");
+          canvas.width = img.style.width;
+
+          ctx.drawImage(img, 0, 0);
+          console.log(img);
+          console.log(document.getElementById("placedimage"), img.id);
+
+          squares.appendChild(canvas);
+
+          console.log(
+            (position.top + position.bottom) / 2,
+            (position.left + position.right) / 2
+          );
+        }
         draggable.classList.remove("dragging");
       });
     });
@@ -317,12 +361,6 @@ const displayBoard = function (player1, player2, player) {
           spot.classList.add("placement");
         }
       }
-    });
-
-    squares.addEventListener("drop", (ev) => {
-      // let point = document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0);
-      // console.log(point);
-      // ev.preventDefault();
     });
   }
 };
