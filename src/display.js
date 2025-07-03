@@ -189,6 +189,7 @@ const displayBoard = function (player1, player2, player) {
       draggable.addEventListener("dragstart", () => {
         draggable.classList.add("dragging");
       });
+
       draggable.addEventListener("dragend", (ev) => {
         console.log(draggable.classList[0]);
         const placed = document.querySelectorAll(".placement");
@@ -211,29 +212,10 @@ const displayBoard = function (player1, player2, player) {
                 "1"
             );
           }
-
           let position = center.getBoundingClientRect();
-          let canvas = document.createElement("canvas");
-
-          let ctx = canvas.getContext("2d");
           let img = new Image();
           img.src = carrierimg;
-          img.style.height = (position.bottom - position.top) * 5 + `px`;
-          img.style.width = position.right - position.left + `px`;
-          img.id = "placedimage";
-          canvas.height = document.getElementById("placedimage");
-          canvas.width = img.style.width;
-
-          ctx.drawImage(img, 0, 0);
-          console.log(img);
-          console.log(document.getElementById("placedimage"), img.id);
-
-          squares.appendChild(canvas);
-
-          console.log(
-            (position.top + position.bottom) / 2,
-            (position.left + position.right) / 2
-          );
+          showShip(img, position);
         }
         draggable.classList.remove("dragging");
       });
@@ -443,6 +425,25 @@ const computerTurn = function (player) {
   }
   shot = String.fromCharCode(x).toUpperCase() + y;
   document.getElementById(`${shot + 1}`).click();
+};
+
+const showShip = (img, position) => {
+  let body = document.querySelector("body");
+  let canvas = document.createElement("canvas");
+  let ctx = canvas.getContext("2d");
+  img.id = "placedimage";
+  canvas.height = position.height * 5;
+  canvas.width = position.width;
+  ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 5);
+  body.appendChild(canvas);
+  canvas.style.left = position.left + 1 + "px";
+  canvas.style.top =
+    position.top - (position.bottom - position.top) * 2 + 4 + "px";
+
+  console.log(position);
+  console.log(position.height);
+  console.log(position.height * 5);
+  console.log(canvas.height);
 };
 
 export { displayBoard };
