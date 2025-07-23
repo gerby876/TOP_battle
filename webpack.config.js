@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// webpack.config.js
+>>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 

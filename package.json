@@ -14,8 +14,11 @@
     "dev": "webpack serve",
     "deploy": "git subtree push --prefix dist origin gh-pages",
     "test": "jest"
+<<<<<<< HEAD
   },
   "dependencies": {
     "src": "^1.1.2"
+=======
+>>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
   }
 }
