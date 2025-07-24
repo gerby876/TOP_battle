@@ -37,17 +37,12 @@ const halves = (function () {
     );
     player1.createBoard(player1, player2);
     player2.createBoard(player1, player2);
-    player1.board.placeShip("carrier", "a1", "a5");
-    player1.board.placeShip("battleship", "b1", "b4");
-    player1.board.placeShip("destroyer", "c1", "c3");
-    player1.board.placeShip("submarine", "d1", "d3");
-    player1.board.placeShip("patrolboat", "e1", "e2");
 
-    player2.board.placeShip("carrier", "a1", "e1");
-    player2.board.placeShip("battleship", "a2", "d2");
-    player2.board.placeShip("destroyer", "c3", "e3");
-    player2.board.placeShip("submarine", "c4", "e4");
-    player2.board.placeShip("patrolboat", "d5", "e5");
+    player2.board.placeShip("carrier", "a0", "e0");
+    player2.board.placeShip("battleship", "a1", "d1");
+    player2.board.placeShip("destroyer", "c2", "e2");
+    player2.board.placeShip("submarine", "c3", "e3");
+    player2.board.placeShip("patrolboat", "a9", "b9");
     newmatch.close();
   });
 
@@ -171,7 +166,6 @@ const displayBoard = function (player1, player2, player) {
   battleship.classList.add("battleship");
   battleship.src = battleshipimg;
   battleship.draggable = true;
-
   battleimgdiv.appendChild(battleship);
 
   const destroyerdiv = document.createElement("div");
@@ -180,8 +174,6 @@ const displayBoard = function (player1, player2, player) {
   const destroyerimgdiv = document.createElement("div");
   destroyerimgdiv.classList.add("destroyerimg");
   destroyerdiv.appendChild(destroyerimgdiv);
-
-  ships.appendChild(battleship);
 
   const destroyer = document.createElement("img");
   destroyer.classList.add("destroyer");
@@ -414,13 +406,37 @@ const displayBoard = function (player1, player2, player) {
             element.classList.remove("placement");
           });
           draggable.classList.remove("dragging");
+          if (draggable.classList.contains("vertical")) {
+            draggable.classList.remove("vertical");
+          } else if (draggable.classList.contains("horizontal")) {
+            draggable.classList.remove("horizontal");
+          }
           return;
         }
+        let overlap = false;
         placed.forEach((element) => {
-          element.classList.add("placed");
-          element.classList.remove("placement");
+          for (let x = 0; x < player1.board.shipyard.length; x++) {
+            if (
+              player1.board.shipyard[x][0] ==
+                element.id.toLowerCase(0).charCodeAt(0) +
+                  element.id.charAt(1) ||
+              player1.board.shipyard[x][1] == draggable.classList[0]
+            ) {
+              placed.forEach((element) => {
+                element.classList.remove("placement");
+              });
+              overlap = true;
+              return;
+            }
+          }
         });
-        if (draggable.classList.contains("vertical")) {
+        if (overlap == false) {
+          placed.forEach((element) => {
+            element.classList.add("placed");
+            element.classList.remove("placement");
+          });
+        }
+        if (draggable.classList.contains("vertical") && overlap == false) {
           if (draggable.classList[0] == "carrier") {
             let center = document.elementFromPoint(ev.clientX, ev.clientY);
             if (center.id.charAt(0) == "A" || center.id.charAt(0) == "B") {
@@ -447,6 +463,13 @@ const displayBoard = function (player1, player2, player) {
             let img = new Image();
             img.src = carrierimg;
             showShip(img, position, draggable.classList[0]);
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) - 2) +
+              Number(center.id.charAt(1));
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) + 2) +
+              Number(center.id.charAt(1));
+            player1.board.placeShip("carrier", pos1, pos2);
           } else if (draggable.classList[0] == "battleship") {
             let center = document.elementFromPoint(ev.clientX, ev.clientY);
             if (center.id.charAt(0) == "A") {
@@ -473,6 +496,15 @@ const displayBoard = function (player1, player2, player) {
             let img = new Image();
             img.src = battleshipimg;
             showShip(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) - 1) +
+              Number(center.id.charAt(1));
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) + 2) +
+              Number(center.id.charAt(1));
+
+            player1.board.placeShip("battleship", pos1, pos2);
           } else if (
             draggable.classList[0] == "submarine" ||
             draggable.classList[0] == "destroyer"
@@ -497,13 +529,24 @@ const displayBoard = function (player1, player2, player) {
             }
             let position = center.getBoundingClientRect();
             let img = new Image();
+            let type;
             if (draggable.classList[0] == "submarine") {
               img.src = submarineimg;
+              type = "submarine";
             } else if (draggable.classList[0] == "destroyer") {
               img.src = destroyerimg;
+              type = "destroyer";
             }
 
             showShip(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) - 1) +
+              Number(center.id.charAt(1));
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) + 1) +
+              Number(center.id.charAt(1));
+            player1.board.placeShip(type, pos1, pos2);
           } else if (draggable.classList[0] == "patrolboat") {
             let center = document.elementFromPoint(ev.clientX, ev.clientY);
             if (center.id.charAt(0) == "A") {
@@ -519,15 +562,25 @@ const displayBoard = function (player1, player2, player) {
             let img = new Image();
             img.src = patrolimg;
             showShip(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0) - 1) +
+              Number(center.id.charAt(1));
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              Number(center.id.charAt(1));
+            player1.board.placeShip("patrolboat", pos1, pos2);
           }
-        } else if (draggable.classList.contains("horizontal")) {
-          console.log(1);
+        } else if (
+          draggable.classList.contains("horizontal") &&
+          overlap == false
+        ) {
           if (draggable.classList[0] == "carrier") {
             let center = document.elementFromPoint(ev.clientX, ev.clientY);
             if (center.id.charAt(1) == "0" || center.id.charAt(1) == "1") {
               center = document.getElementById(
                 document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
-                  "3" +
+                  "2" +
                   "1"
               );
             } else if (
@@ -544,6 +597,103 @@ const displayBoard = function (player1, player2, player) {
             let img = new Image();
             img.src = carrierimg;
             showShipH(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              Number(center.id.charAt(1) - 2);
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              (Number(center.id.charAt(1)) + 2);
+            player1.board.placeShip("carrier", pos1, pos2);
+          } else if (draggable.classList[0] == "battleship") {
+            let center = document.elementFromPoint(ev.clientX, ev.clientY);
+            if (center.id.charAt(1) == "0" || center.id.charAt(1) == "1") {
+              center = document.getElementById(
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
+                  "2" +
+                  "1"
+              );
+            } else if (center.id.charAt(1) == "9") {
+              center = document.getElementById(
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
+                  "8" +
+                  "1"
+              );
+            }
+            let position = center.getBoundingClientRect();
+            let img = new Image();
+            img.src = battleshipimg;
+            showShipH(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              (Number(center.id.charAt(1)) - 2);
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              (Number(center.id.charAt(1)) + 1);
+            console.log(pos1, pos2);
+            player1.board.placeShip("battleship", pos1, pos2);
+          } else if (
+            draggable.classList[0] == "submarine" ||
+            draggable.classList[0] == "destroyer"
+          ) {
+            let center = document.elementFromPoint(ev.clientX, ev.clientY);
+            if (center.id.charAt(1) == "0") {
+              center = document.getElementById(
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
+                  "1" +
+                  "1"
+              );
+            } else if (center.id.charAt(1) == "9") {
+              center = document.getElementById(
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
+                  "8" +
+                  "1"
+              );
+            }
+            let position = center.getBoundingClientRect();
+            let img = new Image();
+            let type;
+            if (draggable.classList[0] == "submarine") {
+              img.src = submarineimg;
+              type = "submarine";
+            } else if (draggable.classList[0] == "destroyer") {
+              img.src = destroyerimg;
+              type = "destroyer";
+            }
+
+            showShipH(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              Number(center.id.charAt(1) - 1);
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              (Number(center.id.charAt(1)) + 1);
+
+            player1.board.placeShip(type, pos1, pos2);
+          } else if (draggable.classList[0] == "patrolboat") {
+            let center = document.elementFromPoint(ev.clientX, ev.clientY);
+            if (center.id.charAt(1) == "0") {
+              center = document.getElementById(
+                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(0) +
+                  "1" +
+                  "1"
+              );
+            }
+            let position = center.getBoundingClientRect();
+            let img = new Image();
+            img.src = patrolimg;
+            showShipH(img, position, draggable.classList[0]);
+
+            let pos1 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              Number(center.id.charAt(1) - 1);
+            let pos2 =
+              String.fromCharCode(center.id.toLowerCase(0).charCodeAt(0)) +
+              Number(center.id.charAt(1));
+
+            player1.board.placeShip("patrolboat", pos1, pos2);
           }
         }
         draggable.classList.remove("dragging");
@@ -944,50 +1094,56 @@ const showShipH = (img, position, type) => {
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
     img.id = "placedimage";
-    canvas.height = position.height * 5;
-    canvas.width = position.width;
-    ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 5);
-    ctx.translate(canvas.height / 2, canvas.width / 2);
-    ctx.rotate(Math.PI / 2);
+    canvas.height = position.width * 5;
+    canvas.width = position.height;
+    ctx.drawImage(img, 0, 0, position.height, (position.width - 2) * 5);
     body.appendChild(canvas);
-    canvas.style.left = position.left + 1 + "px";
+    canvas.style.left = position.left + 8 + "px";
     canvas.style.top =
-      position.top - (position.bottom - position.top) * 2 + 4 + "px";
+      position.top - (position.bottom - position.top) * 3 - 2 + "px";
+    canvas.classList.add("horizontal");
+    console.log(position.left);
   } else if (type == "battleship") {
     let body = document.querySelector("body");
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
     img.id = "placedimage";
-    canvas.height = position.height * 4;
-    canvas.width = position.width;
-    ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 4);
+    canvas.height = position.width * 4;
+    canvas.width = position.height;
+    ctx.drawImage(img, 0, 0, position.height - 2, (position.width - 2) * 4);
     body.appendChild(canvas);
-    canvas.style.left = position.left + 1 + "px";
+    canvas.style.left =
+      position.left - (position.right - position.left) / 2 + 10 + "px";
     canvas.style.top =
-      position.top - (position.bottom - position.top) * 2 + 4 + "px";
+      position.top - (position.bottom - position.top) * 2 - 19 + "px";
+    canvas.classList.add("horizontal");
   } else if (type == "submarine" || type == "destroyer") {
     let body = document.querySelector("body");
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
     img.id = "placedimage";
-    canvas.height = position.height * 3;
-    canvas.width = position.width;
-    ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 3);
+    canvas.height = position.width * 3;
+    canvas.width = position.height;
+    ctx.drawImage(img, 0, 0, position.height - 2, (position.width - 2) * 3);
     body.appendChild(canvas);
-    canvas.style.left = position.left + 1 + "px";
+    canvas.style.left = position.left + 9 + "px";
     canvas.style.top =
-      position.top - (position.bottom - position.top) + 3 + "px";
+      position.top - (position.bottom - position.top) - 36 + "px";
+    canvas.classList.add("horizontal");
   } else if (type == "patrolboat") {
     let body = document.querySelector("body");
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
     img.id = "placedimage";
-    canvas.height = position.height * 2;
-    canvas.width = position.width;
-    ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 2);
+    canvas.height = position.width * 2;
+    canvas.width = position.height;
+    ctx.drawImage(img, 0, 0, position.height - 2, (position.width - 2) * 2);
     body.appendChild(canvas);
-    canvas.style.left = position.left + 1 + "px";
-    canvas.style.top = position.top + 1 + "px";
+    canvas.style.left =
+      position.left - (position.right - position.left) / 2 + 10 + "px";
+    canvas.style.top =
+      position.top + (position.top - position.bottom) + 6 + "px";
+    canvas.classList.add("horizontal");
   }
 };
 

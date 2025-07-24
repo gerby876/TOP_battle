@@ -36,13 +36,15 @@ class Gameboard {
     if (tmpx[0] !== tmpy[0] && tmpx[1] !== tmpy[1]) {
       return;
     }
-    x = tmpx[0].charCodeAt(0) * 10 + (tmpx[1] - 1);
-    y = tmpy[0].charCodeAt(0) * 10 + (tmpy[1] - 1);
+    x = Number(tmpx[0].charCodeAt(0) + tmpx[1]);
+    y = Number(tmpy[0].charCodeAt(0) + tmpy[1]);
+
     if (x > y) {
       let tmp = y;
       y = x;
       x = tmp;
     }
+
     if (tmpx[0] == tmpy[0]) {
       for (let z = 0; z < this.shipyard.length - 1; z++) {
         if (this.shipyard[z].includes(x + z)) {
