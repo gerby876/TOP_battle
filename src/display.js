@@ -147,7 +147,6 @@ const displayBoard = function (player1, player2, player) {
   ships.classList.add("ships");
   shipyard.appendChild(ships);
 
-<<<<<<< HEAD
   const carrierdiv = document.createElement("div");
   ships.appendChild(carrierdiv);
 
@@ -155,13 +154,10 @@ const displayBoard = function (player1, player2, player) {
   carrierimgdiv.classList.add("carrierimg");
   carrierdiv.appendChild(carrierimgdiv);
 
-=======
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
   const carrier = document.createElement("img");
   carrier.classList.add("carrier");
   carrier.src = carrierimg;
   carrier.draggable = true;
-<<<<<<< HEAD
   carrierimgdiv.appendChild(carrier);
 
   const battlediv = document.createElement("div");
@@ -170,15 +166,12 @@ const displayBoard = function (player1, player2, player) {
   const battleimgdiv = document.createElement("div");
   battleimgdiv.classList.add("battleimg");
   battlediv.appendChild(battleimgdiv);
-=======
-  ships.appendChild(carrier);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 
   const battleship = document.createElement("img");
   battleship.classList.add("battleship");
   battleship.src = battleshipimg;
   battleship.draggable = true;
-<<<<<<< HEAD
+
   battleimgdiv.appendChild(battleship);
 
   const destroyerdiv = document.createElement("div");
@@ -187,15 +180,13 @@ const displayBoard = function (player1, player2, player) {
   const destroyerimgdiv = document.createElement("div");
   destroyerimgdiv.classList.add("destroyerimg");
   destroyerdiv.appendChild(destroyerimgdiv);
-=======
+
   ships.appendChild(battleship);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 
   const destroyer = document.createElement("img");
   destroyer.classList.add("destroyer");
   destroyer.src = destroyerimg;
   destroyer.draggable = true;
-<<<<<<< HEAD
   destroyerimgdiv.appendChild(destroyer);
 
   const subdiv = document.createElement("div");
@@ -204,15 +195,11 @@ const displayBoard = function (player1, player2, player) {
   const subimgdiv = document.createElement("div");
   subimgdiv.classList.add("subimg");
   subdiv.appendChild(subimgdiv);
-=======
-  ships.appendChild(destroyer);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 
   const submarine = document.createElement("img");
   submarine.classList.add("submarine");
   submarine.src = submarineimg;
   submarine.draggable = true;
-<<<<<<< HEAD
   subimgdiv.appendChild(submarine);
 
   const patroldiv = document.createElement("div");
@@ -221,15 +208,11 @@ const displayBoard = function (player1, player2, player) {
   const patrolimgdiv = document.createElement("div");
   patrolimgdiv.classList.add("patrolimg");
   patroldiv.appendChild(patrolimgdiv);
-=======
-  ships.appendChild(submarine);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 
   const patrolboat = document.createElement("img");
   patrolboat.classList.add("patrolboat");
   patrolboat.src = patrolimg;
   patrolboat.draggable = true;
-<<<<<<< HEAD
   patrolimgdiv.appendChild(patrolboat);
 
   if (x == 1) {
@@ -373,11 +356,6 @@ const displayBoard = function (player1, player2, player) {
     patrolHLabel.textContent = "Horizontal";
     patrolButtons.appendChild(patrolHLabel);
 
-=======
-  ships.appendChild(patrolboat);
-
-  if (x == 1) {
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
     carrier.classList.add("draggable");
     battleship.classList.add("draggable");
     destroyer.classList.add("draggable");
@@ -387,7 +365,6 @@ const displayBoard = function (player1, player2, player) {
     const draggables = document.querySelectorAll(".draggable");
     draggables.forEach((draggable) => {
       draggable.addEventListener("dragstart", () => {
-<<<<<<< HEAD
         if (draggable.classList.contains("carrier")) {
           document.getElementsByName("carrierdirection").forEach((element) => {
             if (element.checked) {
@@ -423,13 +400,10 @@ const displayBoard = function (player1, player2, player) {
               }
             });
         }
-=======
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
         draggable.classList.add("dragging");
       });
 
       draggable.addEventListener("dragend", (ev) => {
-<<<<<<< HEAD
         const placed = document.querySelectorAll(".placement");
         if (
           document
@@ -442,15 +416,10 @@ const displayBoard = function (player1, player2, player) {
           draggable.classList.remove("dragging");
           return;
         }
-=======
-        console.log(draggable.classList[0]);
-        const placed = document.querySelectorAll(".placement");
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
         placed.forEach((element) => {
           element.classList.add("placed");
           element.classList.remove("placement");
         });
-<<<<<<< HEAD
         if (draggable.classList.contains("vertical")) {
           if (draggable.classList[0] == "carrier") {
             let center = document.elementFromPoint(ev.clientX, ev.clientY);
@@ -576,27 +545,6 @@ const displayBoard = function (player1, player2, player) {
             img.src = carrierimg;
             showShipH(img, position, draggable.classList[0]);
           }
-=======
-        if (draggable.classList[0] == "carrier") {
-          let center = document.elementFromPoint(ev.clientX, ev.clientY);
-          if (center.id.charAt(0) == "A" || center.id.charAt(0) == "B") {
-            center = document.getElementById(
-              "C" +
-                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-                "1"
-            );
-          } else if (center.id.charAt(0) == "J" || center.id.charAt(0) == "I") {
-            center = document.getElementById(
-              "H" +
-                document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-                "1"
-            );
-          }
-          let position = center.getBoundingClientRect();
-          let img = new Image();
-          img.src = carrierimg;
-          showShip(img, position);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
         }
         draggable.classList.remove("dragging");
       });
@@ -611,7 +559,6 @@ const displayBoard = function (player1, player2, player) {
       placed.forEach((element) => {
         element.classList.remove("placement");
       });
-<<<<<<< HEAD
       if (draggable.classList.contains("vertical")) {
         if (draggable.classList.contains("carrier")) {
           if (point.id.charAt(0) == "A" || point.id.charAt(0) == "B") {
@@ -854,119 +801,6 @@ const displayBoard = function (player1, player2, player) {
               "1";
             document.getElementById(spot).classList.add("placement");
           }
-=======
-      if (draggable.classList.contains("carrier")) {
-        if (point.id.charAt(0) == "A" || point.id.charAt(0) == "B") {
-          point = document.getElementById(
-            "C" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        } else if (point.id.charAt(0) == "J" || point.id.charAt(0) == "I") {
-          point = document.getElementById(
-            "H" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        }
-        point.classList.add("placement");
-        for (let y = 1; y < 3; y++) {
-          let temp = point.id.charCodeAt(0) + y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-        for (let y = 1; y < 3; y++) {
-          let temp = point.id.charCodeAt(0) - y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-      }
-
-      if (draggable.classList.contains("battleship")) {
-        if (point.id.charAt(0) == "A") {
-          point = document.getElementById(
-            "B" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        } else if (point.id.charAt(0) == "J" || point.id.charAt(0) == "I") {
-          point = document.getElementById(
-            "H" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        }
-        point.classList.add("placement");
-        for (let y = 1; y < 3; y++) {
-          let temp = point.id.charCodeAt(0) + y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-        for (let y = 1; y < 2; y++) {
-          let temp = point.id.charCodeAt(0) - y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-      }
-
-      if (
-        draggable.classList.contains("destroyer") ||
-        draggable.classList.contains("submarine")
-      ) {
-        if (point.id.charAt(0) == "A") {
-          point = document.getElementById(
-            "B" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        } else if (point.id.charAt(0) == "J") {
-          point = document.getElementById(
-            "I" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        }
-        point.classList.add("placement");
-        for (let y = 1; y < 2; y++) {
-          let temp = point.id.charCodeAt(0) + y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-        for (let y = 1; y < 2; y++) {
-          let temp = point.id.charCodeAt(0) - y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
-        }
-      }
-
-      if (draggable.classList.contains("patrolboat")) {
-        if (point.id.charAt(0) == "A") {
-          point = document.getElementById(
-            "B" +
-              document.elementFromPoint(ev.clientX, ev.clientY).id.charAt(1) +
-              "1"
-          );
-        }
-        point.classList.add("placement");
-        for (let y = 1; y < 2; y++) {
-          let temp = point.id.charCodeAt(0) - y;
-          let spot = document.getElementById(
-            String.fromCharCode(temp) + point.id.charAt(1) + point.id.charAt(2)
-          );
-          spot.classList.add("placement");
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
         }
       }
     });
@@ -1053,7 +887,6 @@ const computerTurn = function (player) {
   document.getElementById(`${shot + 1}`).click();
 };
 
-<<<<<<< HEAD
 const showShip = (img, position, type) => {
   if (type == "carrier") {
     let body = document.querySelector("body");
@@ -1156,25 +989,6 @@ const showShipH = (img, position, type) => {
     canvas.style.left = position.left + 1 + "px";
     canvas.style.top = position.top + 1 + "px";
   }
-=======
-const showShip = (img, position) => {
-  let body = document.querySelector("body");
-  let canvas = document.createElement("canvas");
-  let ctx = canvas.getContext("2d");
-  img.id = "placedimage";
-  canvas.height = position.height * 5;
-  canvas.width = position.width;
-  ctx.drawImage(img, 0, 0, position.width - 2, (position.height - 2) * 5);
-  body.appendChild(canvas);
-  canvas.style.left = position.left + 1 + "px";
-  canvas.style.top =
-    position.top - (position.bottom - position.top) * 2 + 4 + "px";
-
-  console.log(position);
-  console.log(position.height);
-  console.log(position.height * 5);
-  console.log(canvas.height);
->>>>>>> e739158026ef38f4be03b6bda739144bf582cbd1
 };
 
 export { displayBoard };
